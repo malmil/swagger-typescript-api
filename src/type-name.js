@@ -42,7 +42,7 @@ class TypeName {
       return name;
     }
 
-    if (/^([A-Z_]{1,})$/g.test(name)) {
+    if (/^([A-ZÆØÅ_]{1,})$/g.test(name)) {
       return _.compact([typePrefix, name, typeSuffix]).join("_");
     }
 
@@ -60,7 +60,7 @@ class TypeName {
     return formattedResultName;
   };
 
-  isValidName = (name) => /^([A-Za-z$_]{1,})$/g.test(name);
+  isValidName = (name) => /^([A-ZÆØÅa-zæøå$_]{1,})$/g.test(name);
 
   /**
    * @param name
@@ -69,7 +69,7 @@ class TypeName {
    */
   fixModelName = (name, options) => {
     if (!this.isValidName(name)) {
-      if (!/^[a-zA-Z_$]/g.test(name)) {
+      if (!/^[a-zæøåA-ZÆØÅ_$]/g.test(name)) {
         const fixPrefix =
           options && options.type === "enum-key"
             ? this.config.fixInvalidEnumKeyPrefix
@@ -80,7 +80,7 @@ class TypeName {
       // specific replaces for TSOA 3.x
       if (name.includes("."))
         name = name
-          .replace(/Exclude_keyof[A-Za-z]{1,}/g, (match) => "ExcludeKeys")
+          .replace(/Exclude_keyof[A-ZÆØÅa-zæøå]{1,}/g, (match) => "ExcludeKeys")
           .replace(/%22\~AND\~%22/g, "And")
           .replace(/%22\~OR\~%22/g, "Or")
           .replace(/(\.?%22)|\./g, "_")
